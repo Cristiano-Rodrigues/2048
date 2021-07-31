@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#game-view {
+  margin: auto;
+  width: 500px;
+  height: 500px;
+}
+
+.grid {
+  border: 10px solid #d68a19;
+  border-spacing: 0;
+}
+
+.grid td {
+  padding: 50px;
+  border: 8px solid #d68a19;
+}

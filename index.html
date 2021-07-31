@@ -13,13 +13,11 @@
   <script src="js/block.js"></script>
   <script src="js/grid.js"></script>
   <script src="js/DOMDisplay.js"></script>
+  <script src="js/game.js"></script>
   <script>
     const wrapper = document.querySelector("#game-view");
 
-    new DOMDisplay(wrapper, {size: 4}).drawScreen();
-
-    console.log(new Block({x: 0, y: 12}))
-    console.log(new Grid(4))
+    new Game(wrapper, DOMDisplay); // Creating a new game
   </script>
 </body>
 </html>

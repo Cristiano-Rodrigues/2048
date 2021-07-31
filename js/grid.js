@@ -7,7 +7,7 @@ function Grid(size, cells) {
 Grid.prototype.getEmptyCells = function() {
   const emptyCells = [];
   for (let y = 0; y < this.size; y++)
-    emptyCells.push(new Array(this.size).fill(null))
+    emptyCells.push(new Array(this.size).fill(0))
 
   return emptyCells;
 }

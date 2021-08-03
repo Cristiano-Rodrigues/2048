@@ -55,4 +55,36 @@ Grid.prototype.getEmptyCells = function() {
 
 Grid.prototype.setContent = function(position, value) {
   this.cells[position.y][position.x] = value;
-} 
+}
+
+Grid.prototype.moveAndReturn = function(block, destination) {
+
+  this.setContent(block.position, null);
+  this.setContent(destination, block = new Block(destination,
+                                                 block.value));
+
+  return block;
+}
+
+Grid.prototype.moveAvailable = function(destination) {
+  return this.isInside(destination) &&
+         !this.isOcuppied(destination);
+}
+
+Grid.prototype.isInside = function(destination) {
+  return destination.x >= 0 && destination.x < this.size &&
+         destination.y >= 0 && destination.y < this.size;
+}
+
+Grid.prototype.isOcuppied = function(destination) {
+  return this.getContent(destination) !== null;
+}
+
+function Vector(x, y) {
+  this.x = x; this.y = y;
+}
+
+Vector.prototype.plus = function(vector) {
+  return new Vector(this.x + vector.x,
+                    this.y + vector.y);
+}

@@ -18,7 +18,11 @@
   <script>
     const wrapper = document.querySelector("#game-view");
 
-    new Game(wrapper, DOMDisplay); // Creating a new game
+    const game = new Game(wrapper, DOMDisplay); // Creating a new game
+
+    addEventListener("keydown", function(event) {
+      game.moveBlocks(event.key);
+    })
   </script>
 </body>
 </html>

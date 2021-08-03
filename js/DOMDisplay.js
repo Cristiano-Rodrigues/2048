@@ -18,14 +18,20 @@ DOMDisplay.prototype.drawScreen = function() {
 DOMDisplay.prototype.drawBlocks = function() {
   const cells = this.wrapper.querySelectorAll("td");
 
+  cells.forEach(clearCell);
+
   this.grid.each(block => {
     const cell = cells[block.position.y * this.grid.size +
-      block.position.x];
+                            block.position.x];
 
     const data = cell.appendChild(elt("div", "block"));
 
     data.textContent = block.value;
-  })
+  });
+
+  function clearCell(cell) {
+    cell.firstChild && cell.removeChild(cell.firstChild);
+  }
 }
 
 function elt(node, className) {
@@ -33,8 +39,4 @@ function elt(node, className) {
   if (className) elt.className = className;
 
   return elt;
-}
-
-function Vector(x, y) {
-  this.x = x; this.y = y;
 }

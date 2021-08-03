@@ -4,30 +4,29 @@
   font-family: sans-serif;
 }
 
-#game-view {
-  margin: auto;
-  width: max-content;
-}
-
 .grid {
-  border: 10px solid #D68A19;
+  width: 500px;
+  height: 500px;
+  table-layout: fixed;
   border-spacing: 0;
+  border: 10px solid #BBADA0;
 }
 
 .grid td {
   width: 125px;
-  height: 125px;
-  border: 8px solid #D68A19;
-  background-color: #FFB85C;
+  height: 120px;
+  border: 8px solid #BBADA0;
+  background-color: #CDC1B4;
 }
 
 .grid .block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
-  color: #555;
   font-size: 3em;
   font-weight: bolder;
-  text-align: center;
-  line-height: 125px;
-  background-color: #CCC;
+  color: #776E65;
+  background-color: #EEE4DA;
 }

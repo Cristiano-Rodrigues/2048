@@ -36,7 +36,8 @@ DOMDisplay.prototype.drawBlocks = function() {
 }
 
 DOMDisplay.prototype.updateScoreAndBestScore = function(score, bestScore) {
-
+  document.querySelector(".score").innerText = score;
+  document.querySelector(".best-score").innerText = bestScore;
 }
 
 DOMDisplay.prototype.update = function(grid) {

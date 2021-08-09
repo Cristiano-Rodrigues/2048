@@ -4,6 +4,25 @@ function Grid(size, cells) {
                     || this.getEmptyGrid();
 }
 
+Grid.prototype.normalizeCells = function(cells) {
+  const normalizedCells = [];
+
+  for (let y = 0; y < this.size; y++) {
+    const line = [];
+    for (let x = 0; x < this.size; x++) {
+      let cell = cells[y][x];
+      if (cell !== null)
+        cell = new Block(new Vector(cell.position.x,
+                                    cell.position.y),
+                        cell.value);
+      line.push(cell);
+    }
+    normalizedCells.push(line);
+  }
+
+  return normalizedCells;
+}
+
 Grid.prototype.getEmptyGrid = function() {
   const emptyGrid = [];
   for (let y = 0; y < this.size; y++)

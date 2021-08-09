@@ -25,7 +25,9 @@ Game.prototype.setup = function() {
 }
 
 Game.prototype.getState = function() {
-  return;
+  const state = localStorage.getItem("Game-State");
+
+  return JSON.parse(state);
 }
 
 Game.prototype.addStartBlocks = function() {

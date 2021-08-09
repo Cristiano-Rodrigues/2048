@@ -1,4 +1,4 @@
-function Game(wrapper, Display) {
+function Game(Display, wrapper) {
   this.setup();
   this.display = new Display(wrapper, this.grid);
 

@@ -1,7 +1,94 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: sans-serif;
+}
+
+.container {
+  position: relative;
+  width: 500px;
+  min-height: 100vh;
+  margin: auto;
+  padding-top: 10px;
+}
+
+.container h1 {
+  font-size: 5em;
+  color: #776E65;
+  letter-spacing: 4px;
+}
+
+.container div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 2px;
+}
+
+.container div p {
+  color: #605C58;
+}
+
+#new-game {
+  padding: 10px;
+  color: white;
+  font-weight: bolder;
+  font-size: 12pt;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background-color: #776E65;
+}
+
+#new-game:hover {
+  background-color: #605C58;
+  transition: .3s ease-in-out;
+}
+
+.container .game-score-status {
+  position: absolute;
+  right: 0;
+}
+
+.container .game-score-status
+:is(.score, .best-score) {
+  min-width: 60px;
+  padding: 20px 10px 5px;
+  text-align: center;
+  color: white;
+  font-weight: bolder;
+  font-size: 16pt;
+  border-radius: 5px;
+  background-color: #BBADA0;
+}
+
+.container .game-score-status .score {
+  margin-right: 10px;
+}
+
+.container .game-score-status .best-score {
+  min-width: 100px;
+}
+
+.container .game-score-status .score::before {
+  content: "score";
+  position: absolute;
+  top: 15px;
+  font-size: 9pt;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: wheat;
+}
+
+.container .game-score-status .best-score::before {
+  content: "best score";
+  position: absolute;
+  top: 15px;
+  font-size: 9pt;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: wheat;
 }
 
 .grid {

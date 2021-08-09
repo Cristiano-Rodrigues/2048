@@ -4,25 +4,45 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
-  <title>Document</title>
+  <title>2048</title>
 </head>
 <body>
-  <div id="game-view">
-    <!--Here will stay the table of content-->
+  <div class="container">
+    <div class="game-score-status">
+      <div class="score">0</div>
+      <div class="best-score">0</div>
+    </div>
+    <h1>2048</h1>
+    <div>
+      <p>Join the numbers and get to the <strong>2048 tile!</strong></p>
+      <button id="new-game">New Game</button>
+    </div>
+    <hr>
+    <div class="how-to-play">
+      <p><strong>Instrutions:</strong> use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!</p>
+    </div>
+    <div class="game-view">
+      <!-- Here will stay the table of content -->
+    </div>
   </div>
   <script src="js/block.js"></script>
   <script src="js/grid.js"></script>
   <script src="js/DOMDisplay.js"></script>
   <script src="js/game.js"></script>
   <script>
-    const wrapper = document.querySelector("#game-view");
+    const wrapper = document.querySelector(".game-view");
+    const game = new Game(DOMDisplay, wrapper);
 
-    const game = new Game(wrapper, DOMDisplay); // Creating a new game
-
-    addEventListener("keydown", function(event) {
-      game.moveBlocks(event.key);
+    addEventListener("keyup", evt => {
+      game.moveBlocks(evt.key);
     })
+
+    const newGame = document.querySelector("#new-game");
+    newGame.addEventListener("click", () => {
+      game.restart();
+    });
   </script>
 </body>
 </html>

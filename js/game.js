@@ -4,6 +4,8 @@ function Game(wrapper, Display) {
 
   this.display.drawScreen();
   this.display.drawBlocks();
+  this.display.updateScoreAndBestScore(this.score,
+                                    this.bestScore);
 }
 
 Game.prototype.setup = function() {

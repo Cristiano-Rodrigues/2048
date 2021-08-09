@@ -15,21 +15,21 @@ Grid.prototype.getEmptyGrid = function() {
 Grid.prototype.each = function(action, context) {
   for (let y = 0; y < this.size; y++) {
     for (let x = 0; x < this.size; x++) {
-      const cell = this.getContent(new Vector(x, y));
+      const cell = this.get(new Vector(x, y));
       if (cell instanceof Block)
         action.call(context, cell);
     }
   }
 }
 
-Grid.prototype.getContent = function(position) {
+Grid.prototype.get = function(position) {
   return this.cells[position.y][position.x];
 }
 
 Grid.prototype.addRandomBlock = function() {
   const space = this.getRandomEmptyCell();
 
-  this.setContent(space, new Block(space));
+  this.set(space, new Block(space));
 }
 
 Grid.prototype.getRandomEmptyCell = function() {
@@ -44,7 +44,7 @@ Grid.prototype.getEmptyCells = function() {
 
   for (let y = 0; y < this.size; y++) {
     for (let x = 0; x < this.size; x++) {
-      const cell = this.getContent(new Vector(x, y));
+      const cell = this.get(new Vector(x, y));
       if (cell === null)
         emptyCells.push(new Vector(x, y));
     }
@@ -53,17 +53,15 @@ Grid.prototype.getEmptyCells = function() {
   return emptyCells;
 }
 
-Grid.prototype.setContent = function(position, value) {
+Grid.prototype.set = function(position, value) {
   this.cells[position.y][position.x] = value;
 }
 
-Grid.prototype.moveAndReturn = function(block, destination) {
-
-  this.setContent(block.position, null);
-  this.setContent(destination, block = new Block(destination,
-                                                 block.value));
-
-  return block;
+Grid.prototype.move = function(block, destination) {
+  this.set(block.position, null);
+  this.set(destination, block);
+  block.moved = true;
+  block.position = destination;
 }
 
 Grid.prototype.moveAvailable = function(destination) {
@@ -77,7 +75,52 @@ Grid.prototype.isInside = function(destination) {
 }
 
 Grid.prototype.isOcuppied = function(destination) {
-  return this.getContent(destination) !== null;
+  return this.get(destination) !== null;
+}
+
+Grid.prototype.some = function(f, context) {
+  for (let y = 0; y < this.size; y++) {
+    for (let x = 0; x < this.size; x++) {
+      const cell = this.get(new Vector(x, y));
+      if (cell instanceof Block &&
+          f.call(context, cell))
+        return true;
+    }
+  }
+  return false;
+}
+
+Grid.prototype.mergeAndReturn = function(block, other) {
+  this.set(block.position, null);
+  this.set(other.position, 
+           merged = new Block(other.position,
+                              block.value * 2));
+  merged.merged = merged.moved = true;
+
+  return merged;
+}
+
+Grid.prototype.mergesAvailable = function() {
+  const directions = {
+    up    : new Vector( 0, -1 ),
+    right : new Vector( 1,  0 ),
+    down  : new Vector( 0,  1 ),
+    left  : new Vector(-1,  0 )
+  }
+  const map = "up right down left".split(" ");
+
+  return this.some(function(block){
+    for (let i = 0; i < map.length; i++) {
+      const direction = map[ i ];
+      const destination = block.position.plus(directions[direction]);
+      let other;
+
+      if (this.isInside(destination) &&
+          (other = this.get(destination)) &&
+          other.value == block.value)
+        return true;
+    }
+  }, this);
 }
 
 function Vector(x, y) {

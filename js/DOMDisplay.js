@@ -34,6 +34,14 @@ DOMDisplay.prototype.drawBlocks = function() {
   }
 }
 
+DOMDisplay.prototype.updateScoreAndBestScore = function(score, bestScore) {
+
+}
+
+DOMDisplay.prototype.update = function(grid) {
+  this.grid = grid;
+}
+
 function elt(node, className) {
   let elt = document.createElement(node);
   if (className) elt.className = className;

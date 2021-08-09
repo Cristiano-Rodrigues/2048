@@ -30,3 +30,80 @@
   color: #776E65;
   background-color: #EEE4DA;
 }
+
+.grid .block.merged {
+  animation: merge 500ms ease;
+}
+
+.grid .block.val-2 {
+  background-color: #EEE4DA;
+}
+
+.grid .block.val-4 {
+  background-color: #EDE0C8;
+}
+
+.grid .block.val-8 {
+  color: white;
+  background-color: #F2B179;
+}
+
+.grid .block.val-16 {
+  color: white;
+  background-color: #F59563;
+}
+
+.grid .block.val-32 {
+  color: white;
+  background-color: #F67C5F;
+}
+
+.grid .block.val-64 {
+  color: white;
+  background-color: #F65E3B;
+}
+
+.grid .block.val-128 {
+  color: white;
+  background-color: #EDCF72;
+}
+
+.grid .block.val-256 {
+  color: white;
+  background-color: #EDCC61;
+}
+
+.grid .block.val-512 {
+  color: white;
+  background-color: #EDC850;
+}
+
+.grid .block.val-1024 {
+  font-size: .75em;
+  color: white;
+  box-shadow: 0 0 4px white;
+  background-color: #EDC850;
+}
+
+.grid .block.val-2048 {
+  font-size: .75em;
+  color: white;
+  box-shadow: 0 0 8px white;
+  background-color: #EDC22E;
+}
+
+.grid .block.val-4096 {
+  font-size: .75em;
+  color: #f9f6f2;
+  background: #3c3a32;
+}
+
+@keyframes merge {
+  0% {
+    border-radius: 20px;
+    transform: scale(1.185);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

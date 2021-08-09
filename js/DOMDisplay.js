@@ -24,8 +24,9 @@ DOMDisplay.prototype.drawBlocks = function() {
     const cell = cells[block.position.y * this.grid.size +
                             block.position.x];
 
-    const data = cell.appendChild(elt("div", "block"));
-
+    const data = cell.appendChild(elt("div",
+                                  "block val-"+ block.value));
+    data.className  += block.merged ? " merged" : "";
     data.textContent = block.value;
   });
 

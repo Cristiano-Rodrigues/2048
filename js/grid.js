@@ -1,152 +1,114 @@
-function Grid(size, cells) {
-  this.size = size;
-  this.cells = (cells && this.normalizeCells(cells))
-                    || this.getEmptyGrid();
-}
-
-Grid.prototype.normalizeCells = function(cells) {
-  const normalizedCells = [];
-
-  for (let y = 0; y < this.size; y++) {
-    const line = [];
-    for (let x = 0; x < this.size; x++) {
-      let cell = cells[y][x];
-      if (cell !== null)
-        cell = new Block(new Vector(cell.position.x,
-                                    cell.position.y),
-                        cell.value);
-      line.push(cell);
-    }
-    normalizedCells.push(line);
-  }
-
-  return normalizedCells;
-}
-
-Grid.prototype.getEmptyGrid = function() {
-  const emptyGrid = [];
-  for (let y = 0; y < this.size; y++)
-    emptyGrid.push(new Array(this.size).fill(null));
-
-  return emptyGrid;
-}
-
-Grid.prototype.each = function(action, context) {
-  for (let y = 0; y < this.size; y++) {
-    for (let x = 0; x < this.size; x++) {
-      const cell = this.get(new Vector(x, y));
-      if (cell instanceof Block)
-        action.call(context, cell);
+class Grid {
+  constructor(size, grid) {
+    this.size = size;
+    if (grid) {
+      this.cells = this.normalize(grid.cells);
+    } else {
+      this.cells = this.newCells();
     }
   }
-}
-
-Grid.prototype.get = function(position) {
-  return this.cells[position.y][position.x];
-}
-
-Grid.prototype.addRandomBlock = function() {
-  const space = this.getRandomEmptyCell();
-
-  this.set(space, new Block(space));
-}
-
-Grid.prototype.getRandomEmptyCell = function() {
-  const emptyCells = this.getEmptyCells();
-
-  return emptyCells[ Math.floor(Math.random() *
-                        emptyCells.length) ];
-}
-
-Grid.prototype.getEmptyCells = function() {
-  const emptyCells = [];
-
-  for (let y = 0; y < this.size; y++) {
-    for (let x = 0; x < this.size; x++) {
-      const cell = this.get(new Vector(x, y));
-      if (cell === null)
-        emptyCells.push(new Vector(x, y));
+  normalize(cells) {
+    let normalized = [];
+    for (let y = 0; y < this.size; y++) {
+      let line = [];
+      for (let x = 0; x < this.size; x++) {
+        let cell = cells[y][x];
+        if (cell) {
+          cell = new Tile(new Vector(x, y), cell.value);
+        }
+        line.push(cell);
+      }
+      normalized.push(line);
+    }
+    return normalized;
+  }
+  newCells() {
+    let grid = [];
+    for (let y = 0; y < this.size; y++) {
+      let line = [];
+      for (let x = 0; x < this.size; x++) {
+        line.push(null);
+      }
+      grid.push(line);
+    }
+    return grid;
+  }
+  addTileRandomly() {
+    let empty = this.getEmptyCells();
+    if (empty) {
+      let random = Math.floor(Math.random() * empty.length);
+      let space = empty[random];
+      this.set(space, new Tile(space));
     }
   }
-
-  return emptyCells;
-}
-
-Grid.prototype.set = function(position, value) {
-  this.cells[position.y][position.x] = value;
-}
-
-Grid.prototype.move = function(block, destination) {
-  this.set(block.position, null);
-  this.set(destination, block);
-  block.moved = true;
-  block.position = destination;
-}
-
-Grid.prototype.moveAvailable = function(destination) {
-  return this.isInside(destination) &&
-         !this.isOcuppied(destination);
-}
-
-Grid.prototype.isInside = function(destination) {
-  return destination.x >= 0 && destination.x < this.size &&
-         destination.y >= 0 && destination.y < this.size;
-}
-
-Grid.prototype.isOcuppied = function(destination) {
-  return this.get(destination) !== null;
-}
-
-Grid.prototype.some = function(f, context) {
-  for (let y = 0; y < this.size; y++) {
-    for (let x = 0; x < this.size; x++) {
-      const cell = this.get(new Vector(x, y));
-      if (cell instanceof Block &&
-          f.call(context, cell))
-        return true;
+  getEmptyCells() {
+    let empty = [];
+    for (let y = 0; y < this.size; y++) {
+      for (let x = 0; x < this.size; x++) {
+        let cell = this.get(new Vector(x, y));
+        if (cell == null) {
+          empty.push(new Vector(x, y));
+        }
+      }
+    }
+    return empty.length > 0 ? empty : null;
+  }
+  isInside(pos) {
+    return pos.x >= 0 && pos.x < this.size &&
+           pos.y >= 0 && pos.y < this.size;
+  }
+  moveAvailable(destination) {
+    return this.isInside(destination) &&
+           this.get(destination) === null;
+  }
+  each(f, context) {
+    for (let y = 0; y < this.size; y++) {
+      for (let x = 0; x < this.size; x++) {
+        let cell = this.get(new Vector(x, y));
+        if (cell != null) {
+          f.call(context, cell, x, y);
+        }
+      }
     }
   }
-  return false;
-}
-
-Grid.prototype.mergeAndReturn = function(block, other) {
-  this.set(block.position, null);
-  this.set(other.position, 
-           merged = new Block(other.position,
-                              block.value * 2));
-  merged.merged = merged.moved = true;
-
-  return merged;
-}
-
-Grid.prototype.mergesAvailable = function() {
-  const directions = {
-    up    : new Vector( 0, -1 ),
-    right : new Vector( 1,  0 ),
-    down  : new Vector( 0,  1 ),
-    left  : new Vector(-1,  0 )
-  }
-  const map = "up right down left".split(" ");
-
-  return this.some(function(block){
-    for (let i = 0; i < map.length; i++) {
-      const direction = map[ i ];
-      const destination = block.position.plus(directions[direction]);
-      let other;
-
-      if (this.isInside(destination) &&
-          (other = this.get(destination)) &&
-          other.value == block.value)
-        return true;
+  some(f, context) {
+    for (let y = 0; y < this.size; y++) {
+      for (let x = 0; x < this.size; x++) {
+        let cell = this.get(new Vector(x, y));
+        if (cell != null && f.call(context, cell, x, y)) {
+          return true;
+        }
+      }
     }
-  }, this);
-}
+    return false;
+  }
+  mergesAvailable() {
+    let directions = {
+      up: new Vector(0, -1),
+      right: new Vector(1, 0),
+      down: new Vector(0, 1),
+      left: new Vector(-1, 0)
+    }
+    let names = Object.keys(directions);
 
-function Vector(x, y) {
-  this.x = x; this.y = y;
-}
+    return this.some(function(tile) {
+      for (let count = 0; count < names.length; count++) {
+        let direction = names[count];
+        let destination = tile.pos.plus(directions[direction]);
+        let other;
 
-Vector.prototype.plus = function(vector) {
-  return new Vector(this.x + vector.x,
-                    this.y + vector.y);
+        if (this.isInside(destination) &&
+            (other = this.get(destination)) &&
+            other.value == tile.value) {
+          return true;
+        }
+      }
+    }, this);
+  }
+  get(pos) {
+    return this.cells[pos.y][pos.x];
+  }
+  set(pos, value) {
+    this.cells[pos.y][pos.x] = value;
+  }
 }

@@ -23,24 +23,21 @@
     <div class="how-to-play">
       <p><strong>Instrutions:</strong> use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!</p>
     </div>
-    <div class="game-view">
-      <!-- Here will stay the table of content -->
-    </div>
+    <div class="game-view"></div>
   </div>
-  <script src="js/block.js"></script>
+  <script src="js/tile.js"></script>
   <script src="js/grid.js"></script>
-  <script src="js/DOMDisplay.js"></script>
+  <script src="js/display.js"></script>
   <script src="js/game.js"></script>
   <script>
-    const wrapper = document.querySelector(".game-view");
-    const game = new Game(DOMDisplay, wrapper);
+    const game = new Game();
 
     addEventListener("keyup", evt => {
-      game.moveBlocks(evt.key);
-    })
+      game.act(evt.key);
+    });
 
-    const newGame = document.querySelector("#new-game");
-    newGame.addEventListener("click", () => {
+    let button = document.querySelector("#new-game");
+    button.addEventListener("click", () => {
       game.restart();
     });
   </script>

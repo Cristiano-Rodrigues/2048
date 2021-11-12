@@ -12,24 +12,20 @@
   margin: auto;
   padding-top: 10px;
 }
-
 .container h1 {
   font-size: 5em;
   color: #776E65;
   letter-spacing: 4px;
 }
-
 .container div {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 2px;
 }
-
 .container div p {
   color: #605C58;
 }
-
 #new-game {
   padding: 10px;
   color: white;
@@ -40,19 +36,15 @@
   outline: none;
   background-color: #776E65;
 }
-
 #new-game:hover {
   background-color: #605C58;
   transition: .3s ease-in-out;
 }
-
 .container .game-score-status {
   position: absolute;
   right: 0;
 }
-
-.container .game-score-status
-:is(.score, .best-score) {
+.container .game-score-status :is(.score, .best-score) {
   min-width: 60px;
   padding: 20px 10px 5px;
   text-align: center;
@@ -62,27 +54,20 @@
   border-radius: 5px;
   background-color: #BBADA0;
 }
-
 .container .game-score-status .score {
   margin-right: 10px;
 }
-
 .container .game-score-status .best-score {
   min-width: 100px;
 }
-
 .container .game-score-status .score::before {
   content: "score";
-  position: absolute;
-  top: 15px;
-  font-size: 9pt;
-  font-weight: 400;
-  text-transform: uppercase;
-  color: wheat;
 }
-
 .container .game-score-status .best-score::before {
   content: "best score";
+}
+.container .game-score-status .score::before,
+.container .game-score-status .best-score::before {
   position: absolute;
   top: 15px;
   font-size: 9pt;
@@ -90,96 +75,80 @@
   text-transform: uppercase;
   color: wheat;
 }
-
 .grid {
   width: 500px;
   height: 500px;
   table-layout: fixed;
   border-spacing: 0;
-  border: 10px solid #BBADA0;
+  border: 5px solid #BBADA0;
 }
-
 .grid td {
-  width: 125px;
+  width: 120px;
   height: 120px;
-  border: 8px solid #BBADA0;
-  background-color: #CDC1B4;
-}
-
-.grid .block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  text-align: center;
   font-size: 3em;
   font-weight: bolder;
   color: #776E65;
-  background-color: #EEE4DA;
+  border: 8px solid #BBADA0;
+  background-color: #CDC1B4;
 }
-
-.grid .block.merged {
+.grid .tile {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #776E65;
+}
+.grid .tile.merged {
   animation: merge 500ms ease;
 }
-
-.grid .block.val-2 {
+.grid .tile.value-2 {
   background-color: #EEE4DA;
 }
-
-.grid .block.val-4 {
+.grid .tile.value-4 {
   background-color: #EDE0C8;
 }
-
-.grid .block.val-8 {
+.grid .tile.value-8 {
   color: white;
   background-color: #F2B179;
 }
-
-.grid .block.val-16 {
+.grid .tile.value-16 {
   color: white;
   background-color: #F59563;
 }
-
-.grid .block.val-32 {
+.grid .tile.value-32 {
   color: white;
   background-color: #F67C5F;
 }
-
-.grid .block.val-64 {
+.grid .tile.value-64 {
   color: white;
   background-color: #F65E3B;
 }
-
-.grid .block.val-128 {
+.grid .tile.value-128 {
   color: white;
   background-color: #EDCF72;
 }
-
-.grid .block.val-256 {
+.grid .tile.value-256 {
   color: white;
   background-color: #EDCC61;
 }
-
-.grid .block.val-512 {
+.grid .tile.value-512 {
   color: white;
   background-color: #EDC850;
 }
-
-.grid .block.val-1024 {
+.grid .tile.value-1024 {
   font-size: .75em;
   color: white;
   box-shadow: 0 0 4px white;
   background-color: #EDC850;
 }
-
-.grid .block.val-2048 {
+.grid .tile.value-2048 {
   font-size: .75em;
   color: white;
   box-shadow: 0 0 8px white;
   background-color: #EDC22E;
 }
-
-.grid .block.val-4096 {
+.grid .tile.value-4096 {
   font-size: .75em;
   color: #f9f6f2;
   background: #3c3a32;

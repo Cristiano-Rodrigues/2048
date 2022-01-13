@@ -13,8 +13,7 @@ class Game {
                     localStorage.getItem("Game-State"));
 
     if (state) {
-      Object.assign(this, state);
-      this.grid = new Grid(4, state.grid);
+      Object.assign(this, state, { grid: new Grid(4, state.grid) });
     } else {
       this.grid = new Grid(4);
       this.score = this.bestScore = 0;

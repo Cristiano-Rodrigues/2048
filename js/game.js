@@ -9,8 +9,7 @@ class Game {
   }
 
   setup() {
-    const state = JSON.parse(
-                    localStorage.getItem("Game-State"));
+    const state = JSON.parse(localStorage.getItem("Game-State"));
 
     if (state) {
       Object.assign(this, state, { grid: new Grid(4, state.grid) });

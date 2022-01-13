@@ -1,7 +1,7 @@
 class Game {
   constructor() {
     this.setup();
-    let display = this.display = new Display(this.grid);
+    let display = this.display;
 
     display.drawScreen();
     display.drawTiles();
@@ -9,6 +9,7 @@ class Game {
   }
 
   setup() {
+    this.display = new Display(this.grid);
     const state = JSON.parse(localStorage.getItem("Game-State"));
 
     if (state) {

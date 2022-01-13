@@ -9,9 +9,7 @@ class Game {
   }
 
   setup() {
-    this.display = new Display(this.grid);
     const state = JSON.parse(localStorage.getItem("Game-State"));
-
     if (state) {
       Object.assign(this, state, { grid: new Grid(4, state.grid) });
     } else {
@@ -23,6 +21,7 @@ class Game {
       })
       this.addStartTiles();
     }
+    this.display = new Display(this.grid);
   }
   addStartTiles() {
     const tilesCount = 2;

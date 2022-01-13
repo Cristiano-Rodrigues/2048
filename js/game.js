@@ -94,8 +94,6 @@ class Game {
     this.clear();
     this.setup();
     this.bestScore = bestScore;
-    this.display = new Display(this.grid);
-
     this.display.drawTiles();
     this.display.updateScores(this.score, this.bestScore);
   }

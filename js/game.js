@@ -14,9 +14,12 @@ class Game {
     if (state) {
       Object.assign(this, state, { grid: new Grid(4, state.grid) });
     } else {
-      this.grid = new Grid(4);
-      this.score = this.bestScore = 0;
-      this.status = null;
+      Object.assign(this, {
+        grid: new Grid(4),
+        score: 0,
+        bestScore: 0,
+        status: null
+      })
       this.addStartTiles();
     }
   }

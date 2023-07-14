@@ -17,6 +17,7 @@
     <h1>2048</h1>
     <div>
       <p>Join the numbers and get to the <strong>2048 tile!</strong></p>
+      <button id="previous">Previous</button>
       <button id="new-game">New Game</button>
     </div>
     <hr>
@@ -31,29 +32,27 @@
   <script src="assets/game/display.js"></script>
   <script src="assets/game/game.js"></script>
   <script>
-    const game = new Game();
+    const gameViewEl = document.querySelector('.game-view')
+    const newGameBtn = document.querySelector('#new-game')
+    const previousBtn = document.querySelector('#previous')
 
-    addEventListener("keyup", evt => {
-      game.act(evt.key);
-    });
+    let game = new Game()
 
-    const gameView = document.querySelector('.game-view')
+    addEventListener('keyup', evt => game.act(evt.key))
+    newGameBtn.addEventListener('click', () => game.restart())
+    previousBtn.addEventListener('click', () => game.previous())
+
     const mapSwipedEvents = {
       left: 'ArrowLeft',
       right: 'ArrowRight',
       up: 'ArrowUp',
       down: 'ArrowDown'
     }
-
-    gameView.addEventListener("swiped", evt => {
-      const key = evt.detail.dir
-      game.act(mapSwipedEvents[key]);
+    gameViewEl.addEventListener('swiped', evt => {
+      game.act(
+        mapSwipedEvents[evt.detail.dir]
+      )
     })
-
-    let button = document.querySelector("#new-game");
-    button.addEventListener("click", () => {
-      game.restart();
-    });
   </script>
 </body>
 </html>

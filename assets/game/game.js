@@ -33,12 +33,14 @@ class Game {
     let move = Game.moves[direction]
 
     if (move) {
+      const previous = JSON.parse(JSON.stringify(this))
+
       move.call(this)
       let moved = this.grid.some(tile => tile.moved)
       if (moved) {
         this.grid.addTileRandomly()
         this.display.drawTiles()
-        this.save()
+        this.save.call(previous)
 
         if (this.isLost()) { // Game Over
           let newRecord = this.score == this.bestScore
@@ -94,6 +96,13 @@ class Game {
     this.clear()
     this.setup()
     this.bestScore = bestScore
+    this.display.drawTiles()
+    this.display.updateScores(this.score, this.bestScore)
+  }
+  previous () {
+    const state = JSON.parse(localStorage.getItem("Game-State"))
+    if (!state) return
+    this.setup()
     this.display.drawTiles()
     this.display.updateScores(this.score, this.bestScore)
   }

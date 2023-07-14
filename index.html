@@ -25,16 +25,30 @@
     </div>
     <div class="game-view"></div>
   </div>
-  <script src="assets/js/tile.js"></script>
-  <script src="assets/js/grid.js"></script>
-  <script src="assets/js/display.js"></script>
-  <script src="assets/js/game.js"></script>
+  <script src="assets/external-lib/swiped-events/swiped-events.min.js"></script>
+  <script src="assets/game/tile.js"></script>
+  <script src="assets/game/grid.js"></script>
+  <script src="assets/game/display.js"></script>
+  <script src="assets/game/game.js"></script>
   <script>
     const game = new Game();
 
     addEventListener("keyup", evt => {
       game.act(evt.key);
     });
+
+    const gameView = document.querySelector('.game-view')
+    const mapSwipedEvents = {
+      left: 'ArrowLeft',
+      right: 'ArrowRight',
+      up: 'ArrowUp',
+      down: 'ArrowDown'
+    }
+
+    gameView.addEventListener("swiped", evt => {
+      const key = evt.detail.dir
+      game.act(mapSwipedEvents[key]);
+    })
 
     let button = document.querySelector("#new-game");
     button.addEventListener("click", () => {

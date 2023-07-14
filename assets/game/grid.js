@@ -1,72 +1,72 @@
 class Grid {
   constructor(size, grid) {
-    this.size = size;
+    this.size = size
     if (grid) {
-      this.cells = this.normalize(grid.cells);
+      this.cells = this.normalize(grid.cells)
     } else {
-      this.cells = this.newCells();
+      this.cells = this.newCells()
     }
   }
   normalize(cells) {
-    let normalized = [];
+    let normalized = []
     for (let y = 0; y < this.size; y++) {
-      let line = [];
+      let line = []
       for (let x = 0; x < this.size; x++) {
-        let cell = cells[y][x];
+        let cell = cells[y][x]
         if (cell) {
-          cell = new Tile(new Vector(x, y), cell.value);
+          cell = new Tile(new Vector(x, y), cell.value)
         }
-        line.push(cell);
+        line.push(cell)
       }
-      normalized.push(line);
+      normalized.push(line)
     }
-    return normalized;
+    return normalized
   }
   newCells() {
-    let grid = [];
+    let grid = []
     for (let y = 0; y < this.size; y++) {
-      let line = [];
+      let line = []
       for (let x = 0; x < this.size; x++) {
-        line.push(null);
+        line.push(null)
       }
-      grid.push(line);
+      grid.push(line)
     }
-    return grid;
+    return grid
   }
   addTileRandomly() {
-    let empty = this.getEmptyCells();
+    let empty = this.getEmptyCells()
     if (empty) {
-      let random = Math.floor(Math.random() * empty.length);
-      let space = empty[random];
-      this.set(space, new Tile(space));
+      let random = Math.floor(Math.random() * empty.length)
+      let space = empty[random]
+      this.set(space, new Tile(space))
     }
   }
   getEmptyCells() {
-    let empty = [];
+    let empty = []
     for (let y = 0; y < this.size; y++) {
       for (let x = 0; x < this.size; x++) {
-        let cell = this.get(new Vector(x, y));
+        let cell = this.get(new Vector(x, y))
         if (cell == null) {
-          empty.push(new Vector(x, y));
+          empty.push(new Vector(x, y))
         }
       }
     }
-    return empty.length > 0 ? empty : null;
+    return empty.length > 0 ? empty : null
   }
   isInside(pos) {
     return pos.x >= 0 && pos.x < this.size &&
-           pos.y >= 0 && pos.y < this.size;
+           pos.y >= 0 && pos.y < this.size
   }
   moveAvailable(destination) {
     return this.isInside(destination) &&
-           this.get(destination) === null;
+           this.get(destination) === null
   }
   each(f, context) {
     for (let y = 0; y < this.size; y++) {
       for (let x = 0; x < this.size; x++) {
-        let cell = this.get(new Vector(x, y));
+        let cell = this.get(new Vector(x, y))
         if (cell != null) {
-          f.call(context, cell, x, y);
+          f.call(context, cell, x, y)
         }
       }
     }
@@ -74,13 +74,13 @@ class Grid {
   some(f, context) {
     for (let y = 0; y < this.size; y++) {
       for (let x = 0; x < this.size; x++) {
-        let cell = this.get(new Vector(x, y));
+        let cell = this.get(new Vector(x, y))
         if (cell != null && f.call(context, cell, x, y)) {
-          return true;
+          return true
         }
       }
     }
-    return false;
+    return false
   }
   mergesAvailable() {
     let directions = {
@@ -89,26 +89,26 @@ class Grid {
       down: new Vector(0, 1),
       left: new Vector(-1, 0)
     }
-    let names = Object.keys(directions);
+    let names = Object.keys(directions)
 
     return this.some(function(tile) {
       for (let count = 0; count < names.length; count++) {
-        let direction = names[count];
-        let destination = tile.pos.plus(directions[direction]);
-        let other;
+        let direction = names[count]
+        let destination = tile.pos.plus(directions[direction])
+        let other
 
         if (this.isInside(destination) &&
             (other = this.get(destination)) &&
             other.value == tile.value) {
-          return true;
+          return true
         }
       }
-    }, this);
+    }, this)
   }
   get(pos) {
-    return this.cells[pos.y][pos.x];
+    return this.cells[pos.y][pos.x]
   }
   set(pos, value) {
-    this.cells[pos.y][pos.x] = value;
+    this.cells[pos.y][pos.x] = value
   }
 }

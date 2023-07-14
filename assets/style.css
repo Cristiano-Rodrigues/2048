@@ -5,6 +5,10 @@
   font-family: sans-serif;
 }
 
+html, body {
+  overscroll-behavior: contain;
+}
+
 .container {
   position: relative;
   width: 500px;
